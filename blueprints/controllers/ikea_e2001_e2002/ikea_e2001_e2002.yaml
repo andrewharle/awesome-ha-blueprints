@@ -548,7 +548,9 @@ actions:
             default: !input action_button_left_long
       - conditions:
           # target all release events without considering the event suffix
-          - '{{ trigger_action.split("_")[0] in button_left_release }}'
+          - >-
+            {% set prefix_trigger_action = trigger_action.split('_')[0] %}
+            {{ button_left_release | select('search', prefix_trigger_action) | list | length > 0 }}
           # for integrations which need to store the last controller event, need to check the previous button event, stored in the provided input_text
           - '{{ not integration_id in integrations_with_prev_event_storage or last_controller_event | string in button_left_long }}'
         sequence:
@@ -632,7 +634,9 @@ actions:
             default: !input action_button_right_long
       - conditions:
           # target all release events without considering the event suffix
-          - '{{  trigger_action.split("_")[0]in button_right_release }}'
+          - >-
+            {% set prefix_trigger_action = trigger_action.split('_')[0] %}
+            {{ button_right_release | select('search', prefix_trigger_action) | list | length > 0 }}
           # for integrations which need to store the last controller event, need to check the previous button event, stored in the provided input_text
           - '{{ not integration_id in integrations_with_prev_event_storage or last_controller_event | string in button_right_long }}'
         sequence:
