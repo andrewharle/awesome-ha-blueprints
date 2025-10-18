@@ -548,7 +548,7 @@ actions:
             default: !input action_button_left_long
       - conditions:
           # target all release events without considering the event suffix
-          - '{{ trigger_action.split("_")[0] in button_left_release }}'
+          - '{{ trigger_action | string in button_left_release or trigger_action.split("_")[0] in button_left_release }}'
           # for integrations which need to store the last controller event, need to check the previous button event, stored in the provided input_text
           - '{{ not integration_id in integrations_with_prev_event_storage or last_controller_event | string in button_left_long }}'
         sequence:
@@ -632,7 +632,7 @@ actions:
             default: !input action_button_right_long
       - conditions:
           # target all release events without considering the event suffix
-          - '{{  trigger_action.split("_")[0]in button_right_release }}'
+          - '{{ trigger_action | string in button_right_release or  trigger_action.split("_")[0] in button_right_release }}'
           # for integrations which need to store the last controller event, need to check the previous button event, stored in the provided input_text
           - '{{ not integration_id in integrations_with_prev_event_storage or last_controller_event | string in button_right_long }}'
         sequence:
